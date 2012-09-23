@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Avinash Padmanabhan"]
   s.email       = ['avinashpadmanabhan@gmail.com']
   s.files       = `git ls-files`.split("\n")
+	s.test_files  = ['spec/tagger_spec.rb']
   s.homepage    = "https://github.com/eveningsamurai/tagfu"
 
 	s.add_development_dependency "OptionParser"
@@ -16,4 +17,6 @@ Gem::Specification.new do |s|
 	s.require_paths = ["lib"]
 
 	s.executables << 'tagfu'
+
+	s.post_install_message = "Thanks for installing Tagfu!"
 end
