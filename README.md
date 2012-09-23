@@ -30,28 +30,28 @@ Access the command line help
 
 `tagfu --help`
 
-Add tags to the Cucumber feature file(s)
+Add tags to the Cucumber feature file(s) in the current directory
 
-`tagfu -p . -a wip,smoke`
+`tagfu -p . -a wip,smoke`  
 `tagfu -p . -a @wip,@smoke`
 
-Update tags in Cucumber feature file(s)
+Update tags in the specified Cucumber feature file
 
-`tagfu -p story.feature -u wip,smoke`
+`tagfu -p story.feature -u wip,smoke`  
 `tagfu --path story.feature --update @wip,@smoke`
 
-Delete tags in Cucumber feature file(s)
+Delete tags from the Cucumber feature file(s) in the specified folder path
 
 `tagfu --path /usr/home/jdoe/project/features --delete wip,hacky` 
 
-Delete all tags from Cucumber feature file(s)
+Delete all tags from Cucumber feature file(s) in the current directory
 
 `tagfu --path . --delete-all`
 
 Bugs
 ----
 
-Report bugs at [the Github page](https://github.com/).
+Report bugs and requests at [the Github page](https://github.com/eveningsamurai/tagfu).
 
 
 Copyright
