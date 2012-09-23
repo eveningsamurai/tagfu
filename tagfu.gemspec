@@ -8,15 +8,12 @@ Gem::Specification.new do |s|
   s.description = "A gem to manipulate tags in cucumber feature files"
   s.authors     = ["Avinash Padmanabhan"]
   s.email       = ['avinashpadmanabhan@gmail.com']
-  s.files       = ["bin/tagfu",
-									 "lib/tagfu.rb",
-	                 "lib/tagfu/tagger.rb",
-                   "tagfu.gemspec"
-									]
+  s.files       = `git ls-files`.split("\n")
   s.homepage    = "https://github.com/eveningsamurai/tagfu"
 
 	s.add_development_dependency "OptionParser"
 	s.add_development_dependency "rspec"
+	s.require_paths = ["lib"]
 
 	s.executables << 'tagfu'
 end
