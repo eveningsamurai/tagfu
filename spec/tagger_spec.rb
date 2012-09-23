@@ -54,6 +54,33 @@ RSpec.configure do |config|
 					When I run it through the tagger
 					Then I see that the tag has been updated
 			""",
+			:two_tags_to_delete =>
+			"""
+				@smoke
+				@smoke
+				Feature: Two tags to delete in feature file		
+				
+				@wip
+				@wip
+				@wip
+				Scenario: sample story
+					Given I have a feature file with one tag
+					When I run it through the tagger
+					Then I see that the tag has been updated
+			""",
+			:two_tags_to_update =>
+			"""
+				@wip
+				@wip
+				Feature: Two tags to delete in feature file		
+				
+				@wip
+				@wip
+				Scenario: sample story
+					Given I have a feature file with one tag
+					When I run it through the tagger
+					Then I see that the tag has been updated
+			""",
 			:three_tags_delete_update =>
 			"""
 				Feature: Three tags to update in feature file		
@@ -98,7 +125,6 @@ RSpec.configure do |config|
 	end
 
 	config.after(:all) do
-		#FileUtils.remove_entry_secure @dir
 		files = Dir.glob("*.feature")
 		files.each {|file| File.unlink(file)}
 	end
@@ -153,6 +179,20 @@ RSpec.configure do |config|
 			File.readlines(file).any? {|line| line =~ /@wip/}.should be_false
 			File.readlines(file).any? {|line| line =~ /@story2/}.should be_false
 			File.readlines(file).any? {|line| line =~ /@story3/}.should be_true
+		end
+
+		it "should delete duplicate tags in consecutive lines" do
+			file = "two_tags_to_delete.feature"
+			Tagfu::Tagger.new({:path => file, :delete_tags => ['@wip', '@smoke']}).get_files
+			File.readlines(file).any? {|line| line =~ /@smoke/}.should be_false
+			File.readlines(file).any? {|line| line =~ /@wip/}.should be_false
+		end
+
+		it "should update duplicate tags in consecutive lines" do
+			file = "two_tags_to_update.feature"
+			Tagfu::Tagger.new({:path => file, :update_tags => ['@wip', '@smoke']}).get_files
+			File.readlines(file).any? {|line| line =~ /@wip/}.should be_false
+			File.readlines(file).any? {|line| line =~ /@smoke/}.should be_true
 		end
 
 		it "should delete all tags in feature file" do

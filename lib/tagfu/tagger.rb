@@ -54,32 +54,44 @@ module Tagfu
 		end
 
 		def delete_all(lines)
-			lines_to_delete = []
+			lines_to_delete = lines_to_delete(lines, "@")
+			delete_lines(lines, lines_to_delete)
+		end
+
+		def lines_to_delete(lines, regex)
+			tmp = []
 			lines.each_with_index do |line, index|
-				if line.match(/@/)
-					lines_to_delete << index
+				if line.match(/#{regex}/)
+					tmp << index
 				end
 			end
-			running_index = 0
+			tmp
+		end
+
+		def delete_lines(lines, lines_to_delete)
+			lines_to_delete = lines_to_delete.sort
+			index_adjustment = 0
 			lines_to_delete.each do |line_index|
-				lines.delete_at(line_index - running_index)
-				running_index += 1
+				lines.delete_at(line_index - index_adjustment)
+				index_adjustment += 1
 			end
 		end
 
 		def delete_tags(lines)
+			lines_to_delete = []
 			@delete_tags.each do |tag|
-				lines.each_with_index do |line, index|
+				lines.each_with_index do |line, line_index|
 					if only_tag?(line, tag)
-						lines.delete_at(index)
+						lines_to_delete << line_index
 					else	
-						indent = lines[index][/^\s+/].to_s
+						indent = lines[line_index][/^\s+/].to_s
 						line = line.strip
 						next if line.empty?
-						lines[index] = indent + line.chomp.split(' ').delete_if {|word| word.match(/#{tag}/)}.join(' ') + "\n" if line.match(/^@/)
+						lines[line_index] = indent + line.chomp.split(' ').delete_if {|word| word.match(/#{tag}/)}.join(' ') + "\n" if line.match(/^@/)
 					end
 				end
 			end
+			delete_lines(lines, lines_to_delete.flatten)
 		end
 
 		def only_tag?(line, tag)
