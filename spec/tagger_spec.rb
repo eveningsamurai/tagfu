@@ -100,7 +100,7 @@ RSpec.configure do |config|
 	config.after(:all) do
 		#FileUtils.remove_entry_secure @dir
 		files = Dir.glob("*.feature")
-		#files.each {|file| File.unlink(file)}
+		files.each {|file| File.unlink(file)}
 	end
 
 	describe Tagfu::Tagger do

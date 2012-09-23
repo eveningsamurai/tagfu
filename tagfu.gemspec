@@ -1,4 +1,4 @@
-require 'tagfu/version'
+require './lib/tagfu/version.rb'
 
 Gem::Specification.new do |s|
   s.name        = 'tagfu'
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 									]
   s.homepage    = "https://github.com/eveningsamurai/tagfu"
 
-	s.add_development_dependency "optparse"
+	s.add_development_dependency "OptionParser"
 	s.add_development_dependency "rspec"
 
 	s.executables << 'tagfu'
